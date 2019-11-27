@@ -28,6 +28,7 @@ class EditCardsWindow(QMainWindow, Ui_EditCardsWindow):
         self.setupUi(self)
 
 
+#Сделанно(нужна проверка)
 class LoginWindow(QMainWindow, Ui_LoginWindow):
     def __init__(self):
         super().__init__()
@@ -38,7 +39,7 @@ class LoginWindow(QMainWindow, Ui_LoginWindow):
         #Нажимается кнопка "Регистрация"
         self.registrButton.clicked.connect(self.registr)
 
-    def enter(self):
+    def enter(self): #Вход в личный кабинет
         #Считываем введеные логин и пароль
         login, password = self.loginLine.text(), self.passwordLine.text()
 
@@ -62,15 +63,20 @@ class LoginWindow(QMainWindow, Ui_LoginWindow):
             messege.show()
         else:
             #Сохраняем id пользователя и создаем окно меню
-            menu = MenuWindow(results)
+            self.window_menu = QMainWindow()
+            self.ui = Ui_MenuWindow()
+            self.ui.setupUi(self.window_menu)
+            self.window_menu.show()
+            self.close()
 
-    def registr(self):
+    def registr(self): #Открыть окно создания нового аккаунта
         self.window_reg = QMainWindow()
         self.ui = Ui_RegistrWindow()
         self.ui.setupReg(self.window_reg)
         self.window_reg.show()
 
 
+#Редактирование!!!
 class MenuWindow(QMainWindow, Ui_MenuWindow):
     def __init__(self, *args):
         super().__init__()
@@ -78,11 +84,65 @@ class MenuWindow(QMainWindow, Ui_MenuWindow):
         self.id_user = args[0]
         self.word_user = args[1]
 
+        #Нажата кнопка "Карточки"
+        self.cardsButton.clicked.connect(self.cards)
 
+        #Нажата кнопак "Статистика"
+        self.statisticButton.clicked.connect(self.statistic)
+
+        #Нажата кнопка "Настройки"
+        self.settingsButton.clicked.connect(self.settings)
+
+        #Нажата кнопка "Помощь"
+        self.helpButton.clicked.connect(self.help)
+
+        #Нажата кнопка "Выход"
+        self.exitButton.clicked.connect(self.exit)
+
+
+#Сделанно(нужна проверка)
 class RegistrWindow(QWidget, Ui_RegistrWindow):
     def __init__(self, *args):
         super().__init__()
         self.setupUi(self)
+
+        #Нажата кнопка "зарегистрироваться"
+        self.registrButton.clicked.connect(self.registr)
+
+    def registr(self): #Создание нового аккаунта
+        #Получаем данные, введенные пользователем
+        login, word = self.loginLine.text(), self.wordLine.text()
+        password1, password2 = self.passwordLine.text(), self.passwordLine2.text()
+
+        # Подключаемся к БД пользователей
+        con = sqlite3.connect("BDUsers")
+        cur = con.cursor()
+
+        # Ищем в БД пользователей нужного человека
+        results = cur.execute("""SELECT id, User_word FROM Users 
+                            WHERE User_name = ?""",
+                              (login, )).fetchone()
+
+        # Проверяем данные
+        try:
+            len(results)
+        except TypeError:
+            if password1 == password2:# Проверяем совпадение введеных паролей
+                # Вводим данные пользователя в БД
+                cur.execute("""INSERT INTO Users (User_name, User_password, User_word) VALUES (?, ?, ?)""",
+                            (login, password1, word))
+                self.close()
+            else:# Сообщение об ошибке
+                messege = QMessageBox(self)
+                messege.setWindowTitle("Сообщение об ошибке")
+                messege.setText('Пароли не совпадают')
+                messege.show()
+        else:
+            # Сообщаем, что данный логин занят
+            messege = QMessageBox(self)
+            messege.setWindowTitle("Сообщение об ошибке")
+            messege.setText('Данный логин уже занят')
+            messege.show()
 
 
 class RepeatValueWindow(QMainWindow, Ui_RepeatValueWindow):
