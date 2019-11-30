@@ -48,9 +48,10 @@ class LoginWindow(QMainWindow, Ui_LoginWindow):
         cur = con.cursor()
 
         #Ищем в БД пользователей нужного человека
-        results = cur.execute("""SELECT id, User_word FROM Users 
-                    WHERE User_name = ? AND User_password = ?""",
-                              (login, password)).fetchone()
+        #results = cur.execute("""SELECT id, User_word FROM Users
+                #    WHERE User_name = ? AND User_password = ?""",
+                    #          (login, password)).fetchone()
+        results = (1, 2)
 
         #Проверяем данные
         try:
@@ -69,6 +70,14 @@ class LoginWindow(QMainWindow, Ui_LoginWindow):
             self.window_menu.show()
             self.close()
 
+        self.window_menu = QMainWindow()
+        self.ui = Ui_MenuWindow()
+        self.ui.setupUi(self.window_menu)
+        self.window_menu.user_id = 1
+        self.window_menu.user_word = 1
+        self.window_menu.show()
+        self.close()
+
     def registr(self): #Открыть окно создания нового аккаунта
         self.window_reg = QMainWindow()
         self.ui = Ui_RegistrWindow()
@@ -78,38 +87,58 @@ class LoginWindow(QMainWindow, Ui_LoginWindow):
 
 #Редактирование!!!
 class MenuWindow(QMainWindow, Ui_MenuWindow):
-    def __init__(self, *args):
+    def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.id_user = args[0]
-        self.word_user = args[1]
+        #self.id_user = args[0]
+        #self.word_user = args[1]
 
         #Нажата кнопка "Карточки"
-        self.cardsButton.clicked.connect(self.cards)
+        self.cardsButton.clicked.connect(self.cards())
 
         #Нажата кнопак "Статистика"
-        self.statisticButton.clicked.connect(self.statistic)
+        self.statisticButton.clicked.connect(self.statistic())
 
         #Нажата кнопка "Настройки"
-        self.settingsButton.clicked.connect(self.settings)
+        self.settingsButton.clicked.connect(self.settings())
 
         #Нажата кнопка "Помощь"
         self.helpButton.clicked.connect(self.help)
 
-        #Нажата кнопка "Выход"
-        self.exitButton.clicked.connect(self.exit)
+        self.window_cards = QMainWindow()
+        self.ui = Ui_CardsWindow()
+        self.ui.setupUi(self.window_cards)
+        self.window_cards.show()
+
+    def cards(self):
+        self.window_cards = QMainWindow()
+        self.ui = Ui_CardsWindow()
+        self.ui.setupUi(self.window_cards)
+        self.window_cards.show()
+
+    def statistic(self):
+        self.window_statistic = QMainWindow()
+        self.ui = Ui_StatisticWindow()
+        self.ui.setupUi(self.window_statistic)
+        self.window_statistic.show()
+
+    def settings(self):
+        self.window_settings = QMainWindow()
+        self.ui = Ui_SettingsWindow()
+        self.ui.setupUi(self.window_settings)
+        self.window_settings.show()
 
 
-#Сделанно(нужна проверка)
+#Сделанно(нужна проверка) !!!Проблема с кнопкой регистрации!!!
 class RegistrWindow(QWidget, Ui_RegistrWindow):
     def __init__(self, *args):
         super().__init__()
         self.setupUi(self)
 
         #Нажата кнопка "зарегистрироваться"
-        self.registrButton.clicked.connect(self.registr)
+        self.registrButton.clicked.connect(self.registr1)
 
-    def registr(self): #Создание нового аккаунта
+    def registr1(self): #Создание нового аккаунта
         #Получаем данные, введенные пользователем
         login, word = self.loginLine.text(), self.wordLine.text()
         password1, password2 = self.passwordLine.text(), self.passwordLine2.text()
@@ -127,6 +156,11 @@ class RegistrWindow(QWidget, Ui_RegistrWindow):
         try:
             len(results)
         except TypeError:
+            if login == '' or word == '' or password1 == '' or password2 == '':
+                messege = QMessageBox(self)
+                messege.setWindowTitle("Сообщение об ошибке")
+                messege.setText('Все поля должны быть заполнены')
+                messege.show()
             if password1 == password2:# Проверяем совпадение введеных паролей
                 # Вводим данные пользователя в БД
                 cur.execute("""INSERT INTO Users (User_name, User_password, User_word) VALUES (?, ?, ?)""",

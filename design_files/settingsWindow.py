@@ -62,3 +62,13 @@ class Ui_SettingsWindow(object):
         self.modeGameBox.setItemText(1, _translate("MainWindow", "Повторение материала"))
         self.menuButton.setText(_translate("MainWindow", "Меню"))
         self.label.setText(_translate("MainWindow", "Режим игры:"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_SettingsWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())

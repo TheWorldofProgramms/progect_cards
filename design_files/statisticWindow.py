@@ -76,3 +76,13 @@ class Ui_StatisticWindow(object):
         self.toolBar.setWindowTitle(_translate("StatisticWindow", "toolBar"))
         self.actionExit.setText(_translate("StatisticWindow", "Exit"))
         self.actionExit.setToolTip(_translate("StatisticWindow", "Exit window"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_StatisticWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())

@@ -90,3 +90,13 @@ class Ui_TestWindow(object):
         self.label_5.setText(_translate("MainWindow", "Количество ответов:"))
         self.nextWordButton.setText(_translate("MainWindow", "Следующее слово"))
         self.endButton.setText(_translate("MainWindow", "Закончить"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_TestWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())

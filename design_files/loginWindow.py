@@ -56,3 +56,13 @@ class Ui_LoginWindow(object):
         self.passwordLine.setPlaceholderText(_translate("LoginWindow", "Введите Ваш пароль"))
         self.enterButton.setText(_translate("LoginWindow", "Войти"))
         self.registrButton.setText(_translate("LoginWindow", "Регистрация"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_LoginWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())
