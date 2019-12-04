@@ -148,7 +148,7 @@ class RegistrWindow(QWidget, Ui_RegistrWindow):
         cur = con.cursor()
 
         # Ищем в БД пользователей нужного человека
-        results = cur.execute("""SELECT id, User_word FROM Users 
+        results = cur.execute("""SELECT id FROM Users 
                             WHERE User_name = ?""",
                               (login, )).fetchone()
 

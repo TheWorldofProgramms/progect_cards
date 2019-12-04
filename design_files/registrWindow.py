@@ -48,7 +48,7 @@ class Ui_RegistrWindow(object):
         self.label.setGeometry(QtCore.QRect(40, 80, 400, 400))
         self.label.setMaximumSize(QtCore.QSize(400, 400))
         self.label.setText("")
-        self.label.setPixmap(QtGui.QPixmap("images/brain.png"))
+        self.label.setPixmap(QtGui.QPixmap("design_files/images/brain.png"))
         self.label.setObjectName("label")
         RegistrWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(RegistrWindow)

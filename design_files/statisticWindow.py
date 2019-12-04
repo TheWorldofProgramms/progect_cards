@@ -56,7 +56,7 @@ class Ui_StatisticWindow(object):
         StatisticWindow.addToolBar(QtCore.Qt.TopToolBarArea, self.toolBar)
         self.actionExit = QtWidgets.QAction(StatisticWindow)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("ui_files\\../design_files/exit.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("ui_files\\../design_files/images/exit.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionExit.setIcon(icon)
         self.actionExit.setObjectName("actionExit")
         self.toolBar.addAction(self.actionExit)

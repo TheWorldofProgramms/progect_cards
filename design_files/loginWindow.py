@@ -39,7 +39,7 @@ class Ui_LoginWindow(object):
         self.label.setGeometry(QtCore.QRect(100, 110, 381, 361))
         self.label.setMaximumSize(QtCore.QSize(400, 400))
         self.label.setText("")
-        self.label.setPixmap(QtGui.QPixmap("images/Cards.jpg"))
+        self.label.setPixmap(QtGui.QPixmap("design_files/images/Cards.jpg"))
         self.label.setObjectName("label")
         LoginWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(LoginWindow)
