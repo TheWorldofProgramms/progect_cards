@@ -34,6 +34,9 @@ class LoginWindow(QMainWindow, Ui_LoginWindow):
         super().__init__()
         self.setupUi(self)
 
+        self.window_reg = RegistrWindow()
+        self.window_reg.show()
+
         #Нажимается кнопка "Войти"
         self.enterButton.clicked.connect(self.enter)
         #Нажимается кнопка "Регистрация"
@@ -48,10 +51,9 @@ class LoginWindow(QMainWindow, Ui_LoginWindow):
         cur = con.cursor()
 
         #Ищем в БД пользователей нужного человека
-        #results = cur.execute("""SELECT id, User_word FROM Users
-                #    WHERE User_name = ? AND User_password = ?""",
-                    #          (login, password)).fetchone()
-        results = (1, 2)
+        results = cur.execute("""SELECT id, User_word FROM Users
+                    WHERE User_name = ? AND User_password = ?""",
+                              (login, password)).fetchone()
 
         #Проверяем данные
         try:
@@ -64,24 +66,16 @@ class LoginWindow(QMainWindow, Ui_LoginWindow):
             messege.show()
         else:
             #Сохраняем id пользователя и создаем окно меню
-            self.window_menu = QMainWindow()
-            self.ui = Ui_MenuWindow()
-            self.ui.setupUi(self.window_menu)
+            self.window_menu = MenuWindow()
             self.window_menu.show()
             self.close()
 
-        self.window_menu = QMainWindow()
-        self.ui = Ui_MenuWindow()
-        self.ui.setupUi(self.window_menu)
-        self.window_menu.user_id = 1
-        self.window_menu.user_word = 1
+        self.window_menu = MenuWindow()
         self.window_menu.show()
         self.close()
 
     def registr(self): #Открыть окно создания нового аккаунта
-        self.window_reg = QMainWindow()
-        self.ui = Ui_RegistrWindow()
-        self.ui.setupReg(self.window_reg)
+        self.window_reg = RegistrWindow()
         self.window_reg.show()
 
 
@@ -94,38 +88,27 @@ class MenuWindow(QMainWindow, Ui_MenuWindow):
         #self.word_user = args[1]
 
         #Нажата кнопка "Карточки"
-        self.cardsButton.clicked.connect(self.cards())
+        self.cardsButton.clicked.connect(self.cards)
 
         #Нажата кнопак "Статистика"
-        self.statisticButton.clicked.connect(self.statistic())
+        self.statisticButton.clicked.connect(self.statistic)
 
         #Нажата кнопка "Настройки"
-        self.settingsButton.clicked.connect(self.settings())
+        self.settingsButton.clicked.connect(self.settings)
 
         #Нажата кнопка "Помощь"
-        self.helpButton.clicked.connect(self.help)
-
-        self.window_cards = QMainWindow()
-        self.ui = Ui_CardsWindow()
-        self.ui.setupUi(self.window_cards)
-        self.window_cards.show()
+        #self.helpButton.clicked.connect(self.help)
 
     def cards(self):
-        self.window_cards = QMainWindow()
-        self.ui = Ui_CardsWindow()
-        self.ui.setupUi(self.window_cards)
+        self.window_cards = CardsWindow()
         self.window_cards.show()
 
     def statistic(self):
-        self.window_statistic = QMainWindow()
-        self.ui = Ui_StatisticWindow()
-        self.ui.setupUi(self.window_statistic)
+        self.window_statistic = StatisticWindow()
         self.window_statistic.show()
 
     def settings(self):
-        self.window_settings = QMainWindow()
-        self.ui = Ui_SettingsWindow()
-        self.ui.setupUi(self.window_settings)
+        self.window_settings = SettingsWindow()
         self.window_settings.show()
 
 

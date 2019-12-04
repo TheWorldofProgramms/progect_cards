@@ -109,12 +109,3 @@ class Ui_EditCardsWindow(object):
         self.actionExit.setText(_translate("EditCardsWindow", "Exit"))
         self.actionExit.setToolTip(_translate("EditCardsWindow", "Exit window"))
 
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_EditCardsWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())

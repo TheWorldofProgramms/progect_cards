@@ -9,7 +9,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_RegistrWindow(object):
-    def setupReg(self, RegistrWindow):
+    def setupUi(self, RegistrWindow):
         RegistrWindow.setObjectName("RegistrWindow")
         RegistrWindow.resize(794, 600)
         self.centralwidget = QtWidgets.QWidget(RegistrWindow)
@@ -71,13 +71,3 @@ class Ui_RegistrWindow(object):
         self.wordLabel.setText(_translate("RegistrWindow", "Введите специальное слово, которое будет испоьзоваться для востановления пароля:"))
         self.wordLine.setPlaceholderText(_translate("RegistrWindow", "Ваше слово"))
         self.registrButton.setText(_translate("RegistrWindow", "Зарегистрироваться"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_RegistrWindow()
-    ui.setupReg(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
