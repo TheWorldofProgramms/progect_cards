@@ -20,14 +20,29 @@ class CardsWindow(QMainWindow, Ui_CardsWindow):
     def __init__(self, *args):
         super().__init__()
         self.setupUi(self)
+        self.id_user = args[0]
+
+        self.actionSettings.triggered.connect(self.settings)
+
+    def settings(self):
+        self.settings_window = SettingsWindow(self.id_user)
+        self.settings_window.show()
+        self.close()
 
 
 #                                                                                     Карточки
 class EditCardsWindow(QMainWindow, Ui_EditCardsWindow):
-    def __init__(self):
+    def __init__(self, *args):
         super().__init__()
         self.setupUi(self)
+        self.id_user = args[0]
 
+        self.actionSettings.clicked.connect(self.settings)
+
+    def settings(self):
+        self.setting_window = SettingsWindow(self.id_user)
+        self.setting_window.show()
+        self.close()
 
 
 #Сделанно(нужна проверка)                                                              Вход
@@ -50,7 +65,7 @@ class LoginWindow(QMainWindow, Ui_LoginWindow):
         cur = con.cursor()
 
         #Ищем в БД пользователей нужного человека
-        results = cur.execute("""SELECT id, User_word FROM Users
+        results = cur.execute("""SELECT id FROM Users
                     WHERE User_name = ? AND User_password = ?""",
                               (login, password)).fetchone()
 
@@ -65,7 +80,7 @@ class LoginWindow(QMainWindow, Ui_LoginWindow):
             messege.show()
         else:
             #Сохраняем id пользователя и создаем окно меню
-            self.window_menu = MenuWindow()
+            self.window_menu = MenuWindow(*results)
             self.window_menu.show()
             self.close()
 
@@ -76,45 +91,42 @@ class LoginWindow(QMainWindow, Ui_LoginWindow):
 
 #Все работает, кроме кнопки "Помощь"                                                   Меню
 class MenuWindow(QMainWindow, Ui_MenuWindow):
-    def __init__(self):
+    def __init__(self, *args):
         super().__init__()
         self.setupUi(self)
-        args = (1, 1)
-        #self.id_user = args[0]
-        #self.word_user = args[1]
-        #self.game_mode = args[-1]
+        self.id_user = args[0]
 
         #Нажата кнопка "Карточки"
-        self.cardsButton.clicked.connect(self.cards(*args))
+        self.cardsButton.clicked.connect(self.cards)
 
         #Нажата кнопак "Статистика"
-        self.statisticButton.clicked.connect(self.statistic(*args))
+        self.statisticButton.clicked.connect(self.statistic)
 
         #Нажата кнопка "Настройки"
-        self.settingsButton.clicked.connect(self.settings(*args))
+        self.settingsButton.clicked.connect(self.settings)
 
         #Нажата кнопка "Помощь"
         #self.helpButton.clicked.connect(self.help)
 
-    def cards(self, *args):
-        self.window_cards = CardsWindow(*args)
+    def cards(self):
+        self.window_cards = CardsWindow(self.id_user)
         self.window_cards.show()
         self.close()
 
-    def statistic(self, *args):
-        self.window_statistic = StatisticWindow(*args)
+    def statistic(self):
+        self.window_statistic = StatisticWindow(self.id_user)
         self.window_statistic.show()
         self.close()
 
-    def settings(self, *args):
-        self.window_settings = SettingsWindow(*args)
+    def settings(self):
+        self.window_settings = SettingsWindow(self.id_user)
         self.window_settings.show()
         self.close()
 
 
 #Сделанно(нужна проверка)    !!!Не сохраняется новый пользователь!!!                   Окно регистрации
 class RegistrWindow(QWidget, Ui_RegistrWindow):
-    def __init__(self, *args):
+    def __init__(self):
         super().__init__()
         self.setupUi(self)
 
@@ -146,8 +158,9 @@ class RegistrWindow(QWidget, Ui_RegistrWindow):
                 messege.show()
             elif password1 == password2 and password2 != '':# Проверяем совпадение введеных паролей
                 # Вводим данные пользователя в БД
-                cur.execute("""INSERT INTO Users(User_name, User_password, User_word) VALUES(?, ?, ?)""",
-                            (login, password1, word))
+                cur.execute("""INSERT INTO Users(User_name, User_password, User_word, User_game_mode) 
+                            VALUES(?, ?, ?, ?)""",
+                            (login, password1, word, 0))
                 self.close()
             else:# Сообщение об ошибке
                 messege = QMessageBox(self)
@@ -171,16 +184,29 @@ class RepeatValueWindow(QMainWindow, Ui_RepeatValueWindow):
 
 #В процессе                                                                            Настройки
 class SettingsWindow(QMainWindow, Ui_SettingsWindow):
-    def __init__(self):
+    def __init__(self, *args):
         super().__init__()
         self.setupUi(self)
+        #Информация аккаунта
+        self.id_user = args[0]
+
+        #Нажата кнопка "Меню"
+        self.menuButton.clicked.connect(self.menu)
+
+    def menu(self):#Открываем окно меню
+        self.window_menu = MenuWindow(self.id_user)
+        self.window_menu.show()
+        self.close()
 
 
 #                                                                                       Статистика
 class StatisticWindow(QMainWindow, Ui_StatisticWindow):
-    def __init__(self):
+    def __init__(self, *args):
         super().__init__()
         self.setupUi(self)
+        self.id_user = args[0]
+        self.word_user = args[1]
+        self.game_mode = args[-1]
 
 
 #                                                                                        Тест

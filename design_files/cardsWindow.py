@@ -69,7 +69,7 @@ class Ui_CardsWindow(object):
         self.actionStatistic.setObjectName("actionStatistic")
         self.actionExit = QtWidgets.QAction(CardsWindow)
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("progect_cards\\..design_files//images/exit.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap("design_files//images/exit.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionExit.setIcon(icon2)
         self.actionExit.setObjectName("actionExit")
         self.toolBar.addAction(self.actionSettings)
