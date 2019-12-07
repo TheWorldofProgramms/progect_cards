@@ -50,10 +50,10 @@ class Ui_RegistrWindow(object):
         self.label.setText("")
         self.label.setPixmap(QtGui.QPixmap("design_files/images/brain.png"))
         self.label.setObjectName("label")
-        RegistrWindow.setCentralWidget(self.centralwidget)
+        #RegistrWindow.setCentralWidge(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(RegistrWindow)
         self.statusbar.setObjectName("statusbar")
-        RegistrWindow.setStatusBar(self.statusbar)
+        #RegistrWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(RegistrWindow)
         QtCore.QMetaObject.connectSlotsByName(RegistrWindow)

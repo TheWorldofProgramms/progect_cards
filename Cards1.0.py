@@ -15,27 +15,26 @@ from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QMessageBox
 import sqlite3
 
 
-
+#                                                                                     Модули
 class CardsWindow(QMainWindow, Ui_CardsWindow):
-    def __init__(self):
+    def __init__(self, *args):
         super().__init__()
         self.setupUi(self)
 
 
+#                                                                                     Карточки
 class EditCardsWindow(QMainWindow, Ui_EditCardsWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
 
 
-#Сделанно(нужна проверка)
+
+#Сделанно(нужна проверка)                                                              Вход
 class LoginWindow(QMainWindow, Ui_LoginWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-
-        self.window_reg = RegistrWindow()
-        self.window_reg.show()
 
         #Нажимается кнопка "Войти"
         self.enterButton.clicked.connect(self.enter)
@@ -70,58 +69,59 @@ class LoginWindow(QMainWindow, Ui_LoginWindow):
             self.window_menu.show()
             self.close()
 
-        self.window_menu = MenuWindow()
-        self.window_menu.show()
-        self.close()
-
     def registr(self): #Открыть окно создания нового аккаунта
         self.window_reg = RegistrWindow()
         self.window_reg.show()
 
 
-#Редактирование!!!
+#Все работает, кроме кнопки "Помощь"                                                   Меню
 class MenuWindow(QMainWindow, Ui_MenuWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        args = (1, 1)
         #self.id_user = args[0]
         #self.word_user = args[1]
+        #self.game_mode = args[-1]
 
         #Нажата кнопка "Карточки"
-        self.cardsButton.clicked.connect(self.cards)
+        self.cardsButton.clicked.connect(self.cards(*args))
 
         #Нажата кнопак "Статистика"
-        self.statisticButton.clicked.connect(self.statistic)
+        self.statisticButton.clicked.connect(self.statistic(*args))
 
         #Нажата кнопка "Настройки"
-        self.settingsButton.clicked.connect(self.settings)
+        self.settingsButton.clicked.connect(self.settings(*args))
 
         #Нажата кнопка "Помощь"
         #self.helpButton.clicked.connect(self.help)
 
-    def cards(self):
-        self.window_cards = CardsWindow()
+    def cards(self, *args):
+        self.window_cards = CardsWindow(*args)
         self.window_cards.show()
+        self.close()
 
-    def statistic(self):
-        self.window_statistic = StatisticWindow()
+    def statistic(self, *args):
+        self.window_statistic = StatisticWindow(*args)
         self.window_statistic.show()
+        self.close()
 
-    def settings(self):
-        self.window_settings = SettingsWindow()
+    def settings(self, *args):
+        self.window_settings = SettingsWindow(*args)
         self.window_settings.show()
+        self.close()
 
 
-#Сделанно(нужна проверка) !!!Проблема с кнопкой регистрации!!!
+#Сделанно(нужна проверка)    !!!Не сохраняется новый пользователь!!!                   Окно регистрации
 class RegistrWindow(QWidget, Ui_RegistrWindow):
     def __init__(self, *args):
         super().__init__()
         self.setupUi(self)
 
         #Нажата кнопка "зарегистрироваться"
-        self.registrButton.clicked.connect(self.registr1)
+        self.registrButton.clicked.connect(self.registr)
 
-    def registr1(self): #Создание нового аккаунта
+    def registr(self): #Создание нового аккаунта
         #Получаем данные, введенные пользователем
         login, word = self.loginLine.text(), self.wordLine.text()
         password1, password2 = self.passwordLine.text(), self.passwordLine2.text()
@@ -144,9 +144,9 @@ class RegistrWindow(QWidget, Ui_RegistrWindow):
                 messege.setWindowTitle("Сообщение об ошибке")
                 messege.setText('Все поля должны быть заполнены')
                 messege.show()
-            if password1 == password2:# Проверяем совпадение введеных паролей
+            elif password1 == password2 and password2 != '':# Проверяем совпадение введеных паролей
                 # Вводим данные пользователя в БД
-                cur.execute("""INSERT INTO Users (User_name, User_password, User_word) VALUES (?, ?, ?)""",
+                cur.execute("""INSERT INTO Users(User_name, User_password, User_word) VALUES(?, ?, ?)""",
                             (login, password1, word))
                 self.close()
             else:# Сообщение об ошибке
@@ -162,24 +162,28 @@ class RegistrWindow(QWidget, Ui_RegistrWindow):
             messege.show()
 
 
+#                                                                                      Повторение
 class RepeatValueWindow(QMainWindow, Ui_RepeatValueWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
 
 
+#В процессе                                                                            Настройки
 class SettingsWindow(QMainWindow, Ui_SettingsWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
 
 
+#                                                                                       Статистика
 class StatisticWindow(QMainWindow, Ui_StatisticWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
 
 
+#                                                                                        Тест
 class TestWindow(QMainWindow, Ui_TestWindow):
     def __init__(self):
         super().__init__()
