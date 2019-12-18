@@ -22,27 +22,59 @@ class CardsWindow(QMainWindow, Ui_CardsWindow):
         self.setupUi(self)
         self.id_user = args[0]
 
+        # Нажата кнопак "Статистика"
         self.actionSettings.triggered.connect(self.settings)
+
+        # Нажата кнопка "Настройки"
+        self.actionStatistic.triggered.connect(self.statistic)
+
+        self.editButton.clicked.connect(self.edit)
+
+        self.window_repeat = RepeatValueWindow()
+        self.window_repeat.show()
+
+        self.window_test = TestWindow()
+        self.window_test.show()
+
+
 
     def settings(self):
         self.settings_window = SettingsWindow(self.id_user)
         self.settings_window.show()
         self.close()
 
+    def statistic(self):
+        self.window_statistic = StatisticWindow(self.id_user)
+        self.window_statistic.show()
+        self.close()
+
+    def edit(self):
+        self.window_t = EditCardsWindow()
+        self.window_t.show()
+
 
 #                                                                                     Карточки
 class EditCardsWindow(QMainWindow, Ui_EditCardsWindow):
-    def __init__(self, *args):
+    def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.id_user = args[0]
 
-        self.actionSettings.clicked.connect(self.settings)
+        self.id_user = 0
+
+        # Нажата кнопак "Статистика"
+        self.actionStatistics.triggered.connect(self.statistic)
+
+        # Нажата кнопка "Настройки"
+        self.actionSettings.triggered.connect(self.settings)
 
     def settings(self):
-        self.setting_window = SettingsWindow(self.id_user)
+        self.setting_window = SettingsWindow(0)
         self.setting_window.show()
-        self.close()
+
+    def statistic(self):
+        self.window_statistic = StatisticWindow(0)
+        self.window_statistic.show()
+
 
 
 #Сделанно(нужна проверка)                                                              Вход
@@ -205,9 +237,14 @@ class StatisticWindow(QMainWindow, Ui_StatisticWindow):
         super().__init__()
         self.setupUi(self)
         self.id_user = args[0]
-        self.word_user = args[1]
-        self.game_mode = args[-1]
 
+        # Нажата кнопка "Меню"
+        self.menuButton.clicked.connect(self.menu)
+
+    def menu(self):  # Открываем окно меню
+        self.window_menu = MenuWindow(self.id_user)
+        self.window_menu.show()
+        self.close()
 
 #                                                                                        Тест
 class TestWindow(QMainWindow, Ui_TestWindow):
